@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Angular Crud for Two Resource API</title>
+    <!-- jQuery, jQuery.ui -->
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="cruddyApp" ng-cloak>
+	<main>
+		<section id="users" ng-controller="userController as userctrl" ng-init="userctrl.getUsers()">
+		<h1>kisdjbfnkjidsf {{userctrl.header}}</h1>
+	</main>
+
+    <script src="./bundle.js"></script>
+
+</body>
+</html>
