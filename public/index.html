@@ -15,9 +15,16 @@
 
 <body ng-app="cruddyApp">
 	<main>
-		<section id="users" ng-controller="userController as userctrl" ng-init="userctrl.getUsers()">
-		<h1>{{userctrl.header}}</h1>
-		<ul>
+		<section id="users" ng-controller="usersController as usersctrl" ng-init="usersctrl.getUsers()">	
+			<form class="form" >
+				<input type="text" placeholder="name" ng-required="true" ng-model="newUser.name"/>
+				<input type="text" placeholder="SID" ng-model="newUser.SID"/>
+				<input type="text" placeholder="favorite class" ng-model="newUser.favClass"/>
+				<input type="reset"/>
+				<button type="submit" ng-click="usersctrl.createUser(newUser)">Add New User</button>
+			</form>
+		<h1>{{2+2}}</h1>
+		<!-- <ul>
 
 
 			<li ng-repeat="user in userctrl.users">{{user.name}} - {{user.sid}}
@@ -34,10 +41,10 @@
 	        	  </div>
             </form>
 			</li>
-		</ul>
+		</ul> -->
 		</section>
 
-		<section id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
+		<!-- <section id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
 		<h1>{{coursectrl.header}}</h1>
 		<ul>
 
@@ -58,7 +65,7 @@
             </form>
 			</li>
 		</ul>
-		</section>
+		</section> -->
 	</main>
 
     <script src="./bundle.js"></script>

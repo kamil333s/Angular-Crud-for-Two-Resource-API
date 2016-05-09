@@ -6,15 +6,10 @@ var app = express();
 var mongoose = require('mongoose');
 var User = require('./models/user_model');
 var Course = require('./models/class_model');
-var auth = require('./lib/authentication');
+// var auth = require('./lib/authentication');
 
 var DB_PORT = process.env.MONGOLAB_URI || 'mongodb://localhost/db';
 mongoose.connect(DB_PORT);
-
-// The extended config object key now needs
-// to be explicitly passed, since it now has no default value.
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
@@ -22,6 +17,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });
+
+// The extended config object key now needs
+// to be explicitly passed, since it now has no default value.
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+
 
 
 // *** Users ***

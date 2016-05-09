@@ -3,12 +3,11 @@ require('angular');
 var app = angular.module('cruddyApp', []);
 var URL = 'http://localhost:3000';
 
-app.controller('userController', ['$http',function($http) {
+app.controller('usersController', ['$http',function($http) {
 	var vm = this;
 	vm.header = 'Users';
-	vm.users = [{name:'Name', sid:'SID', password:''}];
-
-	var tempUser = {};
+	vm.users = [{name:'', sid:'SID', favClass:''}];
+	vm.tempUser = {};
 
 	vm.backupUser = function(user) {
 		tempUser.name = user.name;
@@ -34,8 +33,8 @@ app.controller('userController', ['$http',function($http) {
 				// console.dir(vm.users);
 			}// if
 		}, function error(res) {
-			alert('There was an error');
-			console.log(res);
+			//alert('There was an error');
+			console.dir(res);
 			}// error
 		);// then
 	};// getUsers
@@ -50,25 +49,22 @@ app.controller('userController', ['$http',function($http) {
 			data: {
 				name:user.name,
 				sid:user.sid,
-				password:user.password
+				favClass:user.favClass
 			}
 		}).then(function success(res) {
 			console.dir(res);
 			if (res.status == 200) {
-				// vm.users.push(user);
-				vm.getUsers();
+				vm.users.push(res.data);
+				//vm.getUsers();
 			}// if
 		}, function error(res) {
 			alert('There was an error');
-			console.log(res);
+			console.dir(res);
 			}// error
 		);// then
 	};// createUser
 
 	vm.updateUser = function(user) {
-		if (user.password == 'hidden') {
-			user.password = null;
-		}
 		$http({
 			method:'PUT',
 			url: URL + '/users/' + user._id,
@@ -78,12 +74,12 @@ app.controller('userController', ['$http',function($http) {
 			data: {
 				name:user.name,
 				sid:user.sid,
-				password: null || user.password
+				favClass: user.favClass
 			}
 		}).then(function success(res) {
 			if (res.status == 200) {
 				//vm.users.push(user);
-				vm.getUsers();
+				//vm.getUsers();
 			}// if
 		}, function error(res) {
 			alert('There was an error');
