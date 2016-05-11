@@ -332,7 +332,7 @@
 			url: URL + '/login',
 			headers: {
 				'content-type':'application/json',
-				'Authorization': 'Basic ' + btoa(vm.username + ':' + vm.password)
+				'authorization': 'Basic ' + btoa(vm.username + ':' + vm.password)
 			}
 			}).then(function success(res) {
 			if (res.status == 200) {
@@ -363,37 +363,37 @@
 	  		vm.loggedBool = false;
 	  	}
 
-	  	vm.createUsers = function() {
-			console.log('create user!');
-			console.dir(vm);
-			var token = myFactory.getToken();
-				$http({
-					method:'POST',
-					url: URL + '/admin/users',
-					headers: {
-						'content-type':'application/json',
-						'Authorization': token
-					},
-					data: {
-						name:vm.username,
-						password:vm.password,
-						admin:vm.admin
-					}				
-				}).then(function success(res) {
-					console.dir('res.data.users:' + res.data.users);
-					if (res.status == 200) {
-						// vm.users = myFactory.objectify(res.data.users);
-						vm.username = '';
-						vm.password = '';
-						vm.admin = false;
-						console.dir(res);
-					}// if
-				}, function error(res) {
-					alert('There was an error');
-					console.dir(res);
-					}// error
-				);// then
-		};
+	 //  	vm.createUsers = function() {
+		// 	console.log('create user!');
+		// 	console.dir(vm);
+		// 	var token = myFactory.getToken();
+		// 		$http({
+		// 			method:'POST',
+		// 			url: URL + '/admin/users',
+		// 			headers: {
+		// 				'content-type':'application/json',
+		// 				'authorization': tokens
+		// 			},
+		// 			data: {
+		// 				name:vm.username,
+		// 				password:vm.password,
+		// 				admin:vm.admin
+		// 			}				
+		// 		}).then(function success(res) {
+		// 			console.dir('res.data.users:' + res.data.users);
+		// 			if (res.status == 200) {
+		// 				// vm.users = myFactory.objectify(res.data.users);
+		// 				vm.username = '';
+		// 				vm.password = '';
+		// 				vm.admin = false;
+		// 				console.dir(res);
+		// 			}// if
+		// 		}, function error(res) {
+		// 			alert('There was an error');
+		// 			console.dir(res);
+		// 			}// error
+		// 		);// then
+		// };
 	}]);
 
 

@@ -55,7 +55,7 @@
                 </li>
             </ul>
         </section>
-        <section id="courses" ng-show=ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
+        <section id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
             <h2>{{coursectrl.header}}</h2>
             <form class="form" ng-submit="coursectrl.createCourse(newCourse)">
                 <input type="text" placeholder="dept" ng-required="true" ng-model="newCourse.dept"/>
