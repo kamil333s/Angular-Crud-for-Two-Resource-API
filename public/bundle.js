@@ -47,33 +47,61 @@
 	//require('./node_modules/angular/angular.min.js');
 	//require('./style.css');
 	// const angular = require('angular');
-	__webpack_require__(1)
+	__webpack_require__(1);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	
 	__webpack_require__(2);
 
 	var app = angular.module('cruddyApp', []);
 	var URL = 'http://localhost:3000';
 
+
+
+	app.factory('myFactory', ['$http', '$window', function($http, $window) {
+		var fac = {};
+
+		fac.setToken = function(token) {
+			var token = $window.localStorage.token('token', token);
+			return token;
+		};
+
+		fac.getToken = function() {
+			var token = $window.localStorage.token('token');
+			return token;
+		};
+
+		fac.clearToken = function() {
+			var token = $window.localStorage.token('token', '');
+			return token;
+		};
+
+
+
+		return fac;
+	}]);
+
 	app.controller('usersController', ['$http',function($http) {
 		var vm = this;
 		vm.header = 'Users';
-		vm.users = [{name:'', sid:'SID', favClass:''}];
+		vm.users = [{name:'', sid:'', favClass:''}];
 		vm.tempUser = {};
 
 		vm.backupUser = function(user) {
-			tempUser.name = user.name;
-			tempUser.sid = user.sid;	
-			tempUser.password = user.password;	
+			vm.tempUser.name = user.name;
+			vm.tempUser.sid = user.sid;	
+			vm.tempUser.favClass = user.favClass;	
 		};
 
 		vm.cancelUser = function(user) {
-			user.name = tempUser.name;
-			user.sid = tempUser.sid;
+			user.name = vm.tempUser.name;
+			user.sid = vm.tempUser.sid;
+			user.favClass = vm.tempUser.favClass;
+			vm.backupUser(user);
 		};
 
 		vm.getUsers = function() {
@@ -86,16 +114,18 @@
 			}).then(function success(res) {
 				if (res.data.data.length > 0) {
 					vm.users = res.data.data;
-					// console.dir(vm.users);
+					console.log('success');
 				}// if
 			}, function error(res) {
 				//alert('There was an error');
-				console.dir(res);
+				console.dir('GET error:', res);
 				}// error
 			);// then
 		};// getUsers
 
 		vm.createUser = function(user) {
+			console.log('POST!');
+			console.dir(user);
 			$http({
 				method:'POST',
 				url: URL + '/users',
@@ -105,16 +135,22 @@
 				data: {
 					name:user.name,
 					sid:user.sid,
-					favClass:user.favClass
+					favClass:user.favClass,
+					password: user.password
 				}
 			}).then(function success(res) {
-				console.dir(res);
 				if (res.status == 200) {
-					vm.users.push(res.data);
+					console.log('POST success');
+					console.dir(res.data);
+					vm.users.push({
+					name:user.name,
+					sid:user.sid,
+					favClass:user.favClass
+				});
 					//vm.getUsers();
 				}// if
 			}, function error(res) {
-				alert('There was an error');
+				console.log('POST error');
 				console.dir(res);
 				}// error
 			);// then
@@ -145,6 +181,8 @@
 		};// createUser
 
 		vm.deleteUser = function(user) {
+			console.log('DELETE');
+			console.dir(user);
 			$http({
 				method:'DELETE',
 				url: URL + '/users/' + user._id,
@@ -164,12 +202,10 @@
 		};// getUsers
 	}]);
 
-
-
 	app.controller('courseController', ['$http',function($http) {
 		var vm = this;
 		vm.header = 'Courses';
-		vm.courses = [{dept:'Dept', number:'Number', enrollment:0, maxEnroll:99}];
+		vm.courses = [{dept:'', number:'', enrollment:0, maxEnroll:0}];
 
 		var tempCourse = {};
 
@@ -185,6 +221,7 @@
 			course.number = tempCourse.number;	
 			course.enrollment = tempCourse.enrollment;
 			course.maxEnroll = tempCourse.maxEnroll;
+			vm.backupCourse();
 		};
 
 		vm.getCourses = function() {
@@ -201,7 +238,7 @@
 					console.dir(vm.courses);
 				}// if
 			}, function error(res) {
-				alert('There was an error');
+				// alert('There was an error');
 				console.log(res);
 				}// error
 			);// then
@@ -274,15 +311,91 @@
 					vm.courses.splice(index, 1);
 				}// if
 			}, function error(res) {
-				alert('There was an error');
-				console.log(res);
+					alert('There was an error');
+					console.log(res);
 				}// error
 			);// then
 		};// getCourses
-
-
-
 	}]);
+
+	app.controller('loginController', ['$http', 'myFactory', function($http, myFactory) {
+		console.log("login called");
+		var vm = this;
+		vm.username = '';
+		vm.password = '';
+		vm.loggedBool = false;
+		vm.message = '';
+
+		vm.login = function(){
+	    	$http({
+			method:'POST',
+			url: URL + '/login',
+			headers: {
+				'content-type':'application/json',
+				'Authorization': 'Basic ' + btoa(vm.username + ':' + vm.password)
+			}
+			}).then(function success(res) {
+			if (res.status == 200) {
+				myFactory.setToken(res.data.token);
+				vm.loggedIn();
+				console.dir(res.data.token);
+			}// if
+			}, function error(res) {
+				// vm.message = res.data
+				alert(res.data);
+				console.log(res);
+			}// error
+		);// then
+	    };
+	  
+
+		vm.logout = function(){
+			myFactory.clearToken();
+			vm.username = '';
+			vm.password = '';
+			vm.loggedBool = false;
+		}
+
+		vm.loggedIn = function(){
+	  		vm.loggedBool= true;
+	  	}
+	  	vm.loggedOut = function(){
+	  		vm.loggedBool = false;
+	  	}
+
+	  	vm.createUsers = function() {
+			console.log('create user!');
+			console.dir(vm);
+			var token = myFactory.getToken();
+				$http({
+					method:'POST',
+					url: URL + '/admin/users',
+					headers: {
+						'content-type':'application/json',
+						'Authorization': token
+					},
+					data: {
+						name:vm.username,
+						password:vm.password,
+						admin:vm.admin
+					}				
+				}).then(function success(res) {
+					console.dir('res.data.users:' + res.data.users);
+					if (res.status == 200) {
+						// vm.users = myFactory.objectify(res.data.users);
+						vm.username = '';
+						vm.password = '';
+						vm.admin = false;
+						console.dir(res);
+					}// if
+				}, function error(res) {
+					alert('There was an error');
+					console.dir(res);
+					}// error
+				);// then
+		};
+	}]);
+
 
 /***/ },
 /* 2 */

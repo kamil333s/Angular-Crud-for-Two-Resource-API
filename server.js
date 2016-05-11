@@ -27,7 +27,6 @@ app.use(bodyParser.json());
 
 // *** Users ***
 app.post('/users', (req, res) => {
-  console.log("POST!");
   var newUser = new User(req.body);
   newUser.save((err, user) => {
     if (err) {
@@ -90,8 +89,8 @@ app.post('/courses', (req, res) => {
     if (err) {
       res.json(err);
     } else {
-    	res.json(course);
-	}
+      res.json(course);
+    }
   });
 });
 
@@ -101,8 +100,8 @@ app.post('/courses', (req, res) => {
     if (err) {
       res.json(err);
     } else {
-    	res.json(course);
-	}
+      res.json(course);
+    }
   });
 });
 
@@ -111,8 +110,8 @@ app.get('/courses', (req, res) => {
     if (err) {
       res.json(err);
     } else {
-    	res.json({data: courses});
-	}
+      res.json({data: courses});
+    }
   });
 });
 
@@ -121,8 +120,8 @@ app.get('/courses/:id', (req, res) => {
     if (err) {
       res.json(err);
     } else {
-    	res.json(course);
-	}
+      res.json(course);
+    }
   });
 });
 

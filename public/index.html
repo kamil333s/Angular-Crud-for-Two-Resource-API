@@ -14,59 +14,73 @@
 </head>
 
 <body ng-app="cruddyApp">
-	<main>
-		<section id="users" ng-controller="usersController as usersctrl" ng-init="usersctrl.getUsers()">	
-			<form class="form" >
-				<input type="text" placeholder="name" ng-required="true" ng-model="newUser.name"/>
-				<input type="text" placeholder="SID" ng-model="newUser.SID"/>
-				<input type="text" placeholder="favorite class" ng-model="newUser.favClass"/>
-				<input type="reset"/>
-				<button type="submit" ng-click="usersctrl.createUser(newUser)">Add New User</button>
-			</form>
-		<h1>{{2+2}}</h1>
-		<!-- <ul>
+    <main ng-controller="usersController as usersctrl" ng-init="usersctrl.getUsers()">
+        <!-- <section id='createUser'  ng-show="!loginctrl.loggedBool">
+            <input type="text" ng-model="usersctrl.username" id="userName" placeholder="Enter username...">
+            <input type="text" ng-model="usersctrl.password" id="userPassword" placeholder="Enter password...">
+            <button value="Create User" class="btn btn-success btn-sm glyphicon glyphicon-log-in" ng-click="usersctrl.login()"/></button>
+        </section> -->
+        <section id='login' ng-controller="loginController as loginctrl" >
+            <div ng-show="!loginctrl.loggedBool">
+                <h1>Login</h1>
+                <input type="text" ng-model="loginctrl.username" id="userName" placeholder="Enter username...">
+                <input type="text" ng-model="loginctrl.password" id="userPassword" placeholder="Enter password...">
+                <button value="Login" class="btn btn-success btn-sm glyphicon glyphicon-log-in" ng-click="loginctrl.login()"/></button>
+            </div>
 
-
-			<li ng-repeat="user in userctrl.users">{{user.name}} - {{user.sid}}
-            <input class="button user-edit" type="button" value="Edit" ng-click="userctrl.backupUser(user);edit = !edit"/>
-            <form name="userForm" ng-init="!edit" ng-show="edit" action="">
-                <label for="userName"><input id="userName" class="input" ng-model="user.name"> User Name</label><br/>
-                <label for="userSID"><input id="userSID" class="input" ng-model="user.sid"> SID</label><br/>    
-                <label for="userPassword"><input id="userPassword" class="input" ng-model="user.password"> Password</label><br/>    
-	              <div>
-	        		<input  type="button" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="userctrl.cancelUser(user)"/>
-	        		<input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="userctrl.updateUser(user);edit = !edit"/>
-	        		<input  type="button" value="Create" class="btn btn-primary btn-sm glyphicon glyphicon-plus" ng-click="userctrl.createUser(user);edit = !edit"/>
-	        		<input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="userctrl.deleteUser(user);edit = !edit"/>
-	        	  </div>
+            <h2>Create a user</h2>      
+            <form class="form" ng-submit="usersctrl.createUser(newUser)">
+                <input type="text" placeholder="name" ng-required="true" ng-model="newUser.name"/>
+                <input type="text" ng-model="newUser.password" id="userPassword" placeholder="Enter password...">
+                <input type="text" placeholder="SID" ng-model="newUser.sid"/>
+                <input type="text" placeholder="favorite class" ng-model="newUser.favClass"/>
+                <input type="reset"/>
+                <button type="submit" >Add New User</button>
             </form>
-			</li>
-		</ul> -->
-		</section>
 
-		<!-- <section id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
-		<h1>{{coursectrl.header}}</h1>
-		<ul>
+        </section>
+        <section id="users" >	
 
-
-			<li ng-repeat="course in coursectrl.courses">{{course.dept}} {{course.number}} - {{course.enrollment}} / {{course.maxEnroll}}
-            <input class="button course-edit" type="button" value="Edit" ng-click="coursectrl.backupCourse(course);edit = !edit"/>
-            <form name="courseForm" ng-init="!edit" ng-show="edit" action="">
-                <label for="courseDept"><input id="courseDept" class="input" ng-model="course.dept"> Course Dept</label><br/>
-                <label for="courseNumber"><input id="courseNumber" class="input" ng-model="course.number"> Number</label><br/>    
-                <label for="courseEnrollment"><input id="courseEnrollment" class="input" ng-model="course.enrollment"> Enrollment</label><br/>    
-                <label for="courseMaxEnroll"><input id="courseMaxEnroll" class="input" ng-model="course.maxEnroll"> Max Enrollment</label><br/>    
-	              <div>
-	        		<input  type="button" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="coursectrl.cancelCourse(course)"/>
-	        		<input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="coursectrl.updateCourse(course);edit = !edit"/>
-	        		<input  type="button" value="Create" class="btn btn-primary btn-sm glyphicon glyphicon-plus" ng-click="coursectrl.createCourse(course);edit = !edit"/>
-	        		<input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="coursectrl.deleteCourse(course);edit = !edit"/>
-	        	  </div>
+            <ul>
+                <li ng-repeat="user in usersctrl.users">{{user.name}} - {{user.sid}} - {{user.favClass}}
+                    <input class="button user-edit" type="button" value="Edit" ng-click="usersctrl.backupUser(user);edit = !edit"/>
+                    <form name="userForm" ng-init="!edit" ng-show="edit" action="">
+                        <label for="userName"><input id="userName" class="input" ng-model="user.name"> user Dept</label><br/>
+                        <label for="userSID"><input id="userSID" class="input" ng-model="user.sid"> SID</label><br/>    
+                        <label for="userFavClass"><input id="userFavClass" class="input" ng-model="user.favClass"> Enrollment</label><br/>    
+                        <input  type="reset" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="usersctrl.cancelUser(user)"/>
+                        <input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="usersctrl.updateUser(user);edit = !edit"/>
+                        <input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="usersctrl.deleteUser(user);edit = !edit"/>
+                    </form>
+                </li>
+            </ul>
+        </section>
+        <section id="courses" ng-show=ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
+            <h2>{{coursectrl.header}}</h2>
+            <form class="form" ng-submit="coursectrl.createCourse(newCourse)">
+                <input type="text" placeholder="dept" ng-required="true" ng-model="newCourse.dept"/>
+                <input type="text" placeholder="number" ng-model="newCourse.number"/>
+                <input type="text" placeholder="enrollment" ng-model="newCourse.enrollment"/>
+                <input type="text" placeholder="maxEnroll" ng-model="newCourse.maxEnroll"/>
+                <input type="reset"/>
+                <button type="submit" >Add New Course</button>
             </form>
-			</li>
-		</ul>
-		</section> -->
-	</main>
+            <ul>
+                <li ng-repeat="course in coursectrl.courses">{{course.dept}} {{course.number}} - {{course.enrollment}} / {{course.maxEnroll}}
+                    <input class="button course-edit" type="button" value="Edit" ng-click="coursectrl.backupCourse(course);edit = !edit"/>
+                    <form name="courseForm" ng-init="!edit" ng-show="edit" action="">
+                        <label for="courseDept"><input id="courseDept" class="input" ng-model="course.dept"> Course Dept</label><br/>
+                        <label for="courseNumber"><input id="courseNumber" class="input" ng-model="course.number"> Number</label><br/>    
+                        <label for="courseEnrollment"><input id="courseEnrollment" class="input" ng-model="course.enrollment"> Enrollment</label><br/>    
+                        <label for="courseMaxEnroll"><input id="courseMaxEnroll" class="input" ng-model="course.maxEnroll"> Max Enrollment</label><br/>    
+                        <input  type="button" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="coursectrl.cancelCourse(course)"/>
+                        <input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="coursectrl.updateCourse(course);edit = !edit"/>
+                        <input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="coursectrl.deleteCourse(course);edit = !edit"/>
+                    </form>
+                </li>
+            </ul>
+        </section>
+    </main>
 
     <script src="./bundle.js"></script>
 </body>
