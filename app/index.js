@@ -10,18 +10,18 @@ app.factory('myFactory', ['$http', '$window', function($http, $window) {
 	var fac = {};
 
 	fac.setToken = function(token) {
-		var token = $window.localStorage.token('token', token);
+		$window.localStorage.token = token
 		return token;
 	};
 
 	fac.getToken = function() {
-		var token = $window.localStorage.token('token');
+		var token = $window.localStorage.token;
 		return token;
 	};
 
 	fac.clearToken = function() {
-		var token = $window.localStorage.token('token', '');
-		return token;
+		$window.localStorage.token = '';
+		return true;
 	};
 
 

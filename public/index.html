@@ -27,6 +27,7 @@
                 <input type="text" ng-model="loginctrl.password" id="userPassword" placeholder="Enter password...">
                 <button value="Login" class="btn btn-success btn-sm glyphicon glyphicon-log-in" ng-click="loginctrl.login()"/></button>
             </div>
+            <button ng-show="loginctrl.loggedBool" value="Logout" class="btn btn-danger btn-sm glyphicon glyphicon-log-out" ng-click="loginctrl.logout()"/></button>
 
             <h2>Create a user</h2>      
             <form class="form" ng-submit="usersctrl.createUser(newUser)">
@@ -38,16 +39,15 @@
                 <button type="submit" >Add New User</button>
             </form>
 
-        </section>
-        <section id="users" >	
+        <section id="users" ng-show="loginctrl.loggedBool">   
 
             <ul>
                 <li ng-repeat="user in usersctrl.users">{{user.name}} - {{user.sid}} - {{user.favClass}}
                     <input class="button user-edit" type="button" value="Edit" ng-click="usersctrl.backupUser(user);edit = !edit"/>
                     <form name="userForm" ng-init="!edit" ng-show="edit" action="">
-                        <label for="userName"><input id="userName" class="input" ng-model="user.name"> user Dept</label><br/>
+                        <label for="userName"><input id="userName" class="input" ng-model="user.name">Name</label><br/>
                         <label for="userSID"><input id="userSID" class="input" ng-model="user.sid"> SID</label><br/>    
-                        <label for="userFavClass"><input id="userFavClass" class="input" ng-model="user.favClass"> Enrollment</label><br/>    
+                        <label for="userFavClass"><input id="userFavClass" class="input" ng-model="user.favClass"> favClass</label><br/>    
                         <input  type="reset" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="usersctrl.cancelUser(user)"/>
                         <input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="usersctrl.updateUser(user);edit = !edit"/>
                         <input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="usersctrl.deleteUser(user);edit = !edit"/>
@@ -55,7 +55,7 @@
                 </li>
             </ul>
         </section>
-        <section id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
+        <section ng-show="loginctrl.loggedBool" id="courses" ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
             <h2>{{coursectrl.header}}</h2>
             <form class="form" ng-submit="coursectrl.createCourse(newCourse)">
                 <input type="text" placeholder="dept" ng-required="true" ng-model="newCourse.dept"/>
@@ -79,6 +79,7 @@
                     </form>
                 </li>
             </ul>
+        </section>
         </section>
     </main>
 

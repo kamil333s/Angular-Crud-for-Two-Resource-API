@@ -7,16 +7,18 @@ var mongoose = require('mongoose');
 var User = require('./models/user_model');
 var Course = require('./models/class_model');
 var auth = require('./lib/authentication');
+var cors = require('cors');
 
 var DB_PORT = process.env.MONGOLAB_URI || 'mongodb://localhost/db';
 mongoose.connect(DB_PORT);
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
-  res.header('Access-Control-Allow-Headers', 'Content-Type', 'authorization');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  next();
-});
+app.use(cors());
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8080');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type', 'authorization');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   next();
+// });
 
 // The extended config object key now needs
 // to be explicitly passed, since it now has no default value.
