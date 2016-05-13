@@ -58,32 +58,11 @@
 	__webpack_require__(2);
 
 	var app = angular.module('cruddyApp', []);
+	__webpack_require__(4)(app);
+	__webpack_require__(5)(app);
+	__webpack_require__(6)(app);
+
 	var URL = 'http://localhost:3000';
-
-
-
-	app.factory('myFactory', ['$http', '$window', function($http, $window) {
-		var fac = {};
-
-		fac.setToken = function(token) {
-			$window.localStorage.token = token
-			return token;
-		};
-
-		fac.getToken = function() {
-			var token = $window.localStorage.token;
-			return token;
-		};
-
-		fac.clearToken = function() {
-			$window.localStorage.token = '';
-			return true;
-		};
-
-
-
-		return fac;
-	}]);
 
 	app.controller('usersController', ['$http',function($http) {
 		var vm = this;
@@ -362,40 +341,7 @@
 	  	vm.loggedOut = function(){
 	  		vm.loggedBool = false;
 	  	}
-
-	 //  	vm.createUsers = function() {
-		// 	console.log('create user!');
-		// 	console.dir(vm);
-		// 	var token = myFactory.getToken();
-		// 		$http({
-		// 			method:'POST',
-		// 			url: URL + '/admin/users',
-		// 			headers: {
-		// 				'content-type':'application/json',
-		// 				'authorization': tokens
-		// 			},
-		// 			data: {
-		// 				name:vm.username,
-		// 				password:vm.password,
-		// 				admin:vm.admin
-		// 			}				
-		// 		}).then(function success(res) {
-		// 			console.dir('res.data.users:' + res.data.users);
-		// 			if (res.status == 200) {
-		// 				// vm.users = myFactory.objectify(res.data.users);
-		// 				vm.username = '';
-		// 				vm.password = '';
-		// 				vm.admin = false;
-		// 				console.dir(res);
-		// 			}// if
-		// 		}, function error(res) {
-		// 			alert('There was an error');
-		// 			console.dir(res);
-		// 			}// error
-		// 		);// then
-		// };
 	}]);
-
 
 /***/ },
 /* 2 */
@@ -31277,6 +31223,69 @@
 	})(window);
 
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = function(app){
+	  app.directive('selectAllOnFocus', function() {
+	    return {
+	      restrict: 'A',
+	      link: function(scope, element){
+	        element.mouseup(function(evt){
+	          console.log('MOUSEUP');
+	          evt.preventDefault();
+	        });// mouseup
+	        element.focus(function(){
+	          console.log('FOCUS');
+	          element.select();
+	        });// focus
+	      }// link
+	    }// return
+	  });  
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('customNav', function() {
+	    return{
+	      restrict: 'E',
+	      templateUrl:'templates/nav.html'
+	    };
+	  });
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('myFactory', ['$http', '$window', function($http, $window) {
+	  var fac = {};
+
+	  fac.setToken = function(token) {
+	    $window.localStorage.token = token
+	    return token;
+	  };
+
+	  fac.getToken = function() {
+	    var token = $window.localStorage.token;
+	    return token;
+	  };
+
+	  fac.clearToken = function() {
+	    $window.localStorage.token = '';
+	    return true;
+	  };
+	  
+	  return fac;
+	  }]);
+	}
 
 /***/ }
 /******/ ]);

@@ -1,0 +1,25 @@
+<div ng-controller="courseController as coursectrl" ng-init="coursectrl.getCourses()">
+            <h2>{{coursectrl.header}}</h2>
+            <form class="form" ng-submit="coursectrl.createCourse(newCourse)">
+                <input type="text" placeholder="dept" ng-required="true" ng-model="newCourse.dept"/>
+                <input type="text" placeholder="number" ng-model="newCourse.number"/>
+                <input type="text" placeholder="enrollment" ng-model="newCourse.enrollment"/>
+                <input type="text" placeholder="maxEnroll" ng-model="newCourse.maxEnroll"/>
+                <input type="reset"/>
+                <button type="submit" >Add New Course</button>
+            </form>
+            <ul>
+                <li ng-repeat="course in coursectrl.courses">{{course.dept}} {{course.number}} - {{course.enrollment}} / {{course.maxEnroll}}
+                    <input class="button course-edit" type="button" value="Edit" ng-click="coursectrl.backupCourse(course);edit = !edit"/>
+                    <form name="courseForm" ng-init="!edit" ng-show="edit" action="">
+                        <label for="courseDept"><input id="courseDept" class="input" ng-model="course.dept"> Course Dept</label><br/>
+                        <label for="courseNumber"><input id="courseNumber" class="input" ng-model="course.number"> Number</label><br/>    
+                        <label for="courseEnrollment"><input id="courseEnrollment" class="input" ng-model="course.enrollment"> Enrollment</label><br/>    
+                        <label for="courseMaxEnroll"><input id="courseMaxEnroll" class="input" ng-model="course.maxEnroll"> Max Enrollment</label><br/>    
+                        <input  type="button" value="Cancel" class="btn btn-warning btn-sm glyphicon glyphicon-erase" ng-click="coursectrl.cancelCourse(course)"/>
+                        <input  type="button" value="Save" class="btn btn-success btn-sm glyphicon glyphicon-floppy-disk" ng-click="coursectrl.updateCourse(course);edit = !edit"/>
+                        <input  type="button" value="Delete" class="btn btn-danger  btn-sm glyphicon glyphicon-trash" ng-click="coursectrl.deleteCourse(course);edit = !edit"/>
+                    </form>
+                </li>
+            </ul>
+            </div>

@@ -2,32 +2,11 @@
 require('angular');
 
 var app = angular.module('cruddyApp', []);
+require('./directives/select.js')(app);
+require('./directives/nav.js')(app);
+require('./services/myFactory.js')(app);
+
 var URL = 'http://localhost:3000';
-
-
-
-app.factory('myFactory', ['$http', '$window', function($http, $window) {
-	var fac = {};
-
-	fac.setToken = function(token) {
-		$window.localStorage.token = token
-		return token;
-	};
-
-	fac.getToken = function() {
-		var token = $window.localStorage.token;
-		return token;
-	};
-
-	fac.clearToken = function() {
-		$window.localStorage.token = '';
-		return true;
-	};
-
-
-
-	return fac;
-}]);
 
 app.controller('usersController', ['$http',function($http) {
 	var vm = this;
@@ -306,36 +285,4 @@ app.controller('loginController', ['$http', 'myFactory', function($http, myFacto
   	vm.loggedOut = function(){
   		vm.loggedBool = false;
   	}
-
- //  	vm.createUsers = function() {
-	// 	console.log('create user!');
-	// 	console.dir(vm);
-	// 	var token = myFactory.getToken();
-	// 		$http({
-	// 			method:'POST',
-	// 			url: URL + '/admin/users',
-	// 			headers: {
-	// 				'content-type':'application/json',
-	// 				'authorization': tokens
-	// 			},
-	// 			data: {
-	// 				name:vm.username,
-	// 				password:vm.password,
-	// 				admin:vm.admin
-	// 			}				
-	// 		}).then(function success(res) {
-	// 			console.dir('res.data.users:' + res.data.users);
-	// 			if (res.status == 200) {
-	// 				// vm.users = myFactory.objectify(res.data.users);
-	// 				vm.username = '';
-	// 				vm.password = '';
-	// 				vm.admin = false;
-	// 				console.dir(res);
-	// 			}// if
-	// 		}, function error(res) {
-	// 			alert('There was an error');
-	// 			console.dir(res);
-	// 			}// error
-	// 		);// then
-	// };
 }]);

@@ -1,0 +1,7 @@
+<div ng-show="!loginctrl.loggedBool">
+  <h1>Login</h1>
+  <input type="text" ng-model="loginctrl.username" id="userName" placeholder="Enter username...">
+  <input type="text" ng-model="loginctrl.password" id="userPassword" placeholder="Enter password...">
+  <button value="Login" class="btn btn-success btn-sm glyphicon glyphicon-log-in" ng-click="loginctrl.login()"/></button>
+</div>
+<button ng-show="loginctrl.loggedBool" value="Logout" class="btn btn-danger btn-sm glyphicon glyphicon-log-out" ng-click="loginctrl.logout()"/></button>
